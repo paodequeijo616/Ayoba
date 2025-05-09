@@ -1,0 +1,21 @@
+{
+  "name": "meu-bot",
+  "version": "1.0.0",
+  "description": "Um bot para Discord feito com o Discord.js v14",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Seu Nome",
+  "license": "MIT",
+  "dependencies": {
+    "@discordjs/voice": "^0.18.0",
+    "axios": "^1.7.9",
+    "discord-modals": "^1.0.0",
+    "discord-rpc": "^4.0.1",
+    "discord.js": "^14.14.1",
+    "express": "^4.21.2",
+    "mysql": "^2.18.1",
+    "puppeteer": "^23.8.0"
+  }
+}
