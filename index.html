@@ -2,29 +2,25 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ayoba Card Game</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="game">
-    <div id="player-hand">
-      <h2>Suas Cartas</h2>
-      <div id="player-character"></div>
-      <div id="player-magic"></div>
+    <div class="hand">
+      <div class="card-area" id="player-area">
+        <h3>Você</h3>
+        <div id="player-card"></div>
+      </div>
+      <div class="card-area" id="bot-area">
+        <h3>Bot</h3>
+        <div id="bot-card">Carta Oculta</div>
+      </div>
     </div>
-    <div id="bot-hand">
-      <h2>Bot</h2>
-      <div id="bot-character">Carta Oculta</div>
-    </div>
-    <div id="actions">
-      <button id="use-effect">Usar Efeito</button>
-      <button id="attack-status">Atacar com Status</button>
-      <button id="use-magic">Usar Magia</button>
-    </div>
+    <div id="actions"></div>
     <div id="log"></div>
-    <div id="ayoba" style="display: none;">
-      <button id="ayoba-btn">AYOBA!</button>
-    </div>
+    <button id="ayoba-btn">AYOBA!</button>
   </div>
   <script src="script.js"></script>
 </body>
