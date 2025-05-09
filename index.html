@@ -1,15 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <title>Jogo Simples</title>
+  <meta charset="UTF-8">
+  <title>Ayoba Card Game</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Olá, jogador!</h1>
-  <button onclick="alert('Você clicou!')">Clique aqui</button>
-  <script src="https://embed.discordapp.net/sdk.js"></script>
-  <script>
-    window.DiscordSDK = new DiscordSDK("SEU_CLIENT_ID")
-    window.DiscordSDK.ready()
-  </script>
+  <div id="game">
+    <div id="player-hand">
+      <h2>Suas Cartas</h2>
+      <div id="player-character"></div>
+      <div id="player-magic"></div>
+    </div>
+    <div id="bot-hand">
+      <h2>Bot</h2>
+      <div id="bot-character">Carta Oculta</div>
+    </div>
+    <div id="actions">
+      <button id="use-effect">Usar Efeito</button>
+      <button id="attack-status">Atacar com Status</button>
+      <button id="use-magic">Usar Magia</button>
+    </div>
+    <div id="log"></div>
+    <div id="ayoba" style="display: none;">
+      <button id="ayoba-btn">AYOBA!</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
