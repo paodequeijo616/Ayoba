@@ -1,10 +1,10 @@
 {
   "name": "meu-bot",
   "version": "1.0.0",
-  "description": "Um bot para Discord feito com o Discord.js v14",
+  "description": "um bgl ai",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server"
   },
   "author": "Seu Nome",
   "license": "MIT",
