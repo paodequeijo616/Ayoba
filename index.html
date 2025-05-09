@@ -17,6 +17,7 @@
       </div>
       <button id="btn-store">Loja</button>
     </div>
+
     <div class="lobby-center">
       <button id="btn-vs-bot">Jogar vs Bot</button>
       <button id="btn-normal" disabled>Partida Normal</button>
@@ -39,5 +40,20 @@
   </div>
 
   <script src="script.js"></script>
+   <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const sdk = window.discordSdk;
+      sdk.ready().then(() => {
+        sdk.connect({ clientId: '1365169402441633852' }).then(() => {
+          const user = sdk.user;
+          const box = document.getElementById('profile-box');
+          box.querySelector('.avatar-placeholder').outerHTML =
+            `<img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" class="avatar" style="width:32px;height:32px;border-radius:50%">`;
+          box.querySelector('#username').innerText =
+            `${user.username}#${user.discriminator}`;
+        });
+      });
+    });
+  </script>
 </body>
 </html>

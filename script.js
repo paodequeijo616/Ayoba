@@ -1,16 +1,4 @@
-// Inicializa o Discord Embedded App via Embedded App SDK
-const sdk = window.discordSdk;
-sdk.ready().then(() => sdk.connect({ clientId: '1365169402441633852' }));
-sdk.ready().then(() => {
-  const user = sdk.user; // { id, username, discriminator, avatar }
-  const box = document.getElementById('profile-box');
-  box.querySelector('.avatar-placeholder').outerHTML =
-    `<img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" class="avatar" style="width:32px;height:32px;border-radius:50%">`;
-  box.querySelector('#username').innerText =
-    `${user.username}#${user.discriminator}`;
-});
 
-// DOM refs
 const lobbyEl      = document.getElementById('lobby');
 const gameEl       = document.getElementById('game');
 const logEl        = document.getElementById('log');
