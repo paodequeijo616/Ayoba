@@ -1,6 +1,6 @@
 // ——— DISCORD OAUTH2 ———
 // Preencha com suas credenciais da app Discord
-const CLIENT_ID    = 'SEU_CLIENT_ID';
+const CLIENT_ID    = '1365169402441633852';
 const REDIRECT_URI = 'https://ayoba-cg.vercel.app/'; // URL do site hospedado
 const SCOPE        = 'identify';
 const AUTH_URL     = 'https://discord.com/api/oauth2/authorize';
