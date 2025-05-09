@@ -1,7 +1,6 @@
 // Inicializa o Discord Embedded App via Embedded App SDK
-const DiscordEmbedSDK = window.DiscordEmbedSDK;
-const sdk = new DiscordEmbedSDK({ clientId: '1365169402441633852' });
-sdk.init();
+const sdk = window.discordSdk;
+sdk.ready().then(() => sdk.connect({ clientId: '1365169402441633852' }));
 sdk.ready().then(() => {
   const user = sdk.user; // { id, username, discriminator, avatar }
   const box = document.getElementById('profile-box');
