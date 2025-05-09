@@ -11,8 +11,11 @@
   <div id="lobby">
     <div class="lobby-top-left">
       <div id="profile-box">
-        <span class="avatar-placeholder"></span>
-        <span id="username">Conectando...</span>
+        <button id="btn-login">Login com o Discord</button>
+        <div id="user-info" style="display: none;">
+          <img id="avatar" class="avatar" style="width:32px;height:32px;border-radius:50%">
+          <span id="username"></span>
+        </div>
       </div>
       <button id="btn-store">Loja</button>
     </div>
@@ -38,17 +41,17 @@
   </div>
 
   <script>
-    window.addEventListener('DOMContentLoaded', async () => {
-      const sdk = new DiscordSDK('1365169402441633852');
+    const sdk = new DiscordSDK('1365169402441633852');
+
+    document.getElementById('btn-login').addEventListener('click', async () => {
       await sdk.ready();
       await sdk.connect();
 
       const user = sdk.user;
-      const box = document.getElementById('profile-box');
-      box.querySelector('.avatar-placeholder').outerHTML =
-        `<img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" class="avatar" style="width:32px;height:32px;border-radius:50%">`;
-      box.querySelector('#username').innerText =
-        `${user.username}#${user.discriminator}`;
+      document.getElementById('btn-login').style.display = 'none';
+      document.getElementById('user-info').style.display = 'flex';
+      document.getElementById('avatar').src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
+      document.getElementById('username').innerText = `${user.username}#${user.discriminator}`;
     });
   </script>
 </body>
