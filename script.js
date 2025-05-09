@@ -1,4 +1,5 @@
 // Inicializa o Discord Embedded App via Embedded App SDK
+import { DiscordEmbedSDK } from '@discord/embedded-app-sdk';
 const sdk = new DiscordEmbedSDK({ clientId: '1365169402441633852' });
 sdk.init();
 sdk.ready().then(() => {
