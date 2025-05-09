@@ -12,7 +12,7 @@ btnInventory.onclick = () => alert('Inventário (stub)');
 btnVsBot.onclick     = () => { lobbyEl.classList.add('hidden'); gameEl.classList.remove('hidden'); startGame(); };
 
 // Jogo vs Bot (igual ao anterior)
-const DEFAULT_IMAGE = 'https://via.placeholder.com/100';
+const DEFAULT_IMAGE = '';
 const characterCards = [
   { id: 1, name: 'Lilih', clan: 'Paladino', stats: { presence: 98, monetization: 60, subscription: 36, charisma: 58 }, image: 'rbxassetid://92040032975049' },
   { id: 2, name: 'Guinas', clan: 'Guardião', stats: { presence: 10, monetization: 10, subscription: 81, charisma: 95 }, image: 'rbxassetid://126388660969728' },
