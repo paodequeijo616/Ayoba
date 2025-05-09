@@ -1,74 +1,30 @@
-// ——— DISCORD OAUTH2 ———
-// Preencha com suas credenciais da app Discord
-const CLIENT_ID    = '1365169402441633852';
-const REDIRECT_URI = 'https://ayoba-cg.vercel.app/'; // URL do site hospedado
-const SCOPE        = 'identify';
-const AUTH_URL     = 'https://discord.com/api/oauth2/authorize';
-const API_USER_URL = 'https://discord.com/api/users/@me';
+// script.js
+// Inicializa o Discord Embedded App
+const sdk = new DiscordSDK({ clientId: '1365169402441633852' });
+sdk.init();
+sdk.ready().then(() => {
+  const user = sdk.user; // { id, username, discriminator, avatar }
+  const box = document.getElementById('profile-box');
+  box.querySelector('.avatar-placeholder').outerHTML =
+    `<img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" class="avatar" style="width:32px;height:32px;border-radius:50%">`;
+  box.querySelector('#username').innerText =
+    `${user.username}#${user.discriminator}`;
+});
 
-let accessToken = null;
-
-// DOM
+// DOM refs
 const lobbyEl      = document.getElementById('lobby');
 const gameEl       = document.getElementById('game');
 const logEl        = document.getElementById('log');
-const btnProfile   = document.getElementById('btn-profile');
 const btnVsBot     = document.getElementById('btn-vs-bot');
 const btnStore     = document.getElementById('btn-store');
 const btnInventory = document.getElementById('btn-inventory');
 
-// On load: checa callback OAuth2
-window.onload = () => {
-  const hash = new URLSearchParams(location.hash.slice(1));
-  if (hash.has('access_token')) {
-    accessToken = hash.get('access_token');
-    history.replaceState({}, '', location.pathname);
-    fetchDiscordUser();
-  }
-};
-
-// Inicia OAuth2 flow
-btnProfile.onclick = () => {
-  if (!accessToken) {
-    const url = `${AUTH_URL}?client_id=${CLIENT_ID}` +
-                `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
-                `&response_type=token&scope=${SCOPE}`;
-    window.location.href = url;
-  }
-};
-
-// Busca nome e avatar
-async function fetchDiscordUser() {
-  const res = await fetch(API_USER_URL, {
-    headers: { Authorization: `Bearer ${accessToken}` }
-  });
-  if (!res.ok) return alert('Falha ao obter perfil Discord');
-  const user = await res.json();
-  showDiscordProfile(user);
-}
-
-// Renderiza na tela Perfil/Avatar
-function showDiscordProfile(user) {
-  const box = document.getElementById('profile-box');
-  box.innerHTML = `
-    <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" 
-         alt="avatar" class="avatar">
-    <span>${user.username}#${user.discriminator}</span>
-  `;
-}
-
-// Stubs loja/inventário
+// Navegação stub
 btnStore.onclick     = () => alert('Loja (stub)');
 btnInventory.onclick = () => alert('Inventário (stub)');
+btnVsBot.onclick     = () => { lobbyEl.classList.add('hidden'); gameEl.classList.remove('hidden'); startGame(); };
 
-// Navegação para o jogo
-btnVsBot.onclick = () => {
-  lobbyEl.classList.add('hidden');
-  gameEl.classList.remove('hidden');
-  startGame();
-};
-
-// ——— LÓGICA DO JOGO VS BOT ———
+// Jogo vs Bot (igual ao anterior)
 const DEFAULT_IMAGE = 'https://via.placeholder.com/100';
 const characterCards = [
   { id: 1, name: 'Lilih', clan: 'Paladino', stats: { presence: 98, monetization: 60, subscription: 36, charisma: 58 }, image: 'rbxassetid://92040032975049' },
@@ -127,8 +83,7 @@ function showCard(el, card, hide) {
   if (hide) el.innerText = 'Carta Oculta';
   else el.innerHTML = `
     <img src="${card.image||DEFAULT_IMAGE}">
-    <p>${card.name}</p>
-    <p>${card.clan}</p>
+    <p>${card.name}</p><p>${card.clan}</p>
     <p>P:${card.stats.presence} M:${card.stats.monetization}
        S:${card.stats.subscription}</p>
     <p>C:${card.stats.charisma}</p>
@@ -186,15 +141,21 @@ function resolveBattle(p,b) {
   else if (b>p) { log('Bot venceu!'); botDeck.push(botCard); }
   else {
     log('Empate! Desempate por clã…');
-    if (clanWin(playerCard.clan,botCard.clan)) { log('Seu clã venceu!'); playerDeck.push(playerCard); }
-    else if (clanWin(botCard.clan,playerCard.clan)) { log('Clã do bot venceu!'); botDeck.push(botCard); }
-    else { log('Empate total! Ambos mantêm.'); playerDeck.push(playerCard); botDeck.push(botCard); }
+    if ((playerCard.clan==='Paladino'&&botCard.clan==='Guardião')||
+        (playerCard.clan==='Guardião'&&botCard.clan==='Sentinela')||
+        (playerCard.clan==='Sentinela'&&botCard.clan==='Paladino')) {
+      log('Seu clã venceu!'); playerDeck.push(playerCard);
+    } else if ((botCard.clan==='Paladino'&&playerCard.clan==='Guardião')||
+               (botCard.clan==='Guardião'&&playerCard.clan==='Sentinela')||
+               (botCard.clan==='Sentinela'&&playerCard.clan==='Paladino')) {
+      log('Clã do bot venceu!'); botDeck.push(botCard);
+    } else {
+      log('Empate total! Ambos mantêm.');
+      playerDeck.push(playerCard);
+      botDeck.push(botCard);
+    }
   }
   setTimeout(nextTurn,1000);
-}
-
-function clanWin(a,b) {
-  return (a==='Paladino'&&b==='Guardião')||(a==='Guardião'&&b==='Sentinela')||(a==='Sentinela'&&b==='Paladino');
 }
 
 function endGame() {

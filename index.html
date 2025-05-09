@@ -1,44 +1,39 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Ayoba Card Game</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Ayoba Card Game (Activity)</title>
+  <link rel="stylesheet" href="style.css"/>
+  <!-- Discord Embedded App SDK -->
+  <script src="https://unpkg.com/@discord/embedded-app-sdk/dist/discord-sdk.js"></script>
 </head>
 <body>
-  <!-- Lobby Screen -->
+  <!-- Lobby -->
   <div id="lobby">
-    <!-- canto superior esquerdo: Perfil e Loja -->
     <div class="lobby-top-left">
       <div id="profile-box">
-        <button id="btn-profile">Entrar com Discord</button>
+        <span class="avatar-placeholder"></span>
+        <span id="username">Conectando...</span>
       </div>
       <button id="btn-store">Loja</button>
     </div>
-    <!-- centro empilhado: modos de jogo -->
     <div class="lobby-center">
       <button id="btn-vs-bot">Jogar vs Bot</button>
       <button id="btn-normal" disabled>Partida Normal</button>
       <button id="btn-competitive" disabled>Competitivo</button>
     </div>
-    <!-- meio lateral direita: Inventário -->
     <div class="lobby-middle-right">
       <button id="btn-inventory">Inventário</button>
     </div>
   </div>
 
-  <!-- Main Game Screen -->
+  <!-- Game -->
   <div id="game" class="hidden">
     <div class="hand">
-      <div class="card-area" id="player-area">
-        <h3>Você</h3>
-        <div id="player-card"></div>
-      </div>
-      <div class="card-area" id="bot-area">
-        <h3>Bot</h3>
-        <div id="bot-card">Carta Oculta</div>
-      </div>
+      <div class="card-area" id="player-area"><h3>Você</h3><div id="player-card"></div></div>
+      <div class="card-area" id="bot-area"><h3>Bot</h3><div id="bot-card">Carta Oculta</div></div>
     </div>
     <div id="actions"></div>
     <div id="log"></div>
