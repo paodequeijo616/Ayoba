@@ -1,6 +1,5 @@
 // Inicializa o Discord Embedded App via Embedded App SDK
-const DiscordEmbedSDK = require('@discord/embedded-app-sdk');
-
+const DiscordEmbedSDK = window.DiscordEmbedSDK;
 const sdk = new DiscordEmbedSDK({ clientId: '1365169402441633852' });
 sdk.init();
 sdk.ready().then(() => {
