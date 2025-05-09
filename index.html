@@ -2,21 +2,26 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ayoba Card Game</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- Lobby Screen -->
   <div id="lobby">
+    <!-- Top‑left: Perfil e Loja -->
+    <div class="lobby-top-left">
+      <button id="btn-profile">Perfil</button>
+      <button id="btn-store">Loja</button>
+    </div>
+    <!-- Middle‑center: modos de jogo empilhados -->
     <div class="lobby-center">
       <button id="btn-vs-bot">Jogar vs Bot</button>
       <button id="btn-normal" disabled>Partida Normal</button>
       <button id="btn-competitive" disabled>Competitivo</button>
     </div>
-    <div class="lobby-top-right">
-      <button id="btn-profile">Perfil</button>
-      <button id="btn-store">Loja</button>
+    <!-- Middle‑right: Inventário -->
+    <div class="lobby-middle-right">
       <button id="btn-inventory">Inventário</button>
     </div>
   </div>
