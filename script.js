@@ -1,4 +1,74 @@
-// placeholder e cartas de exemplo; substitua pelo seu array completo
+// ——— DISCORD OAUTH2 ———
+// Preencha com suas credenciais da app Discord
+const CLIENT_ID    = 'SEU_CLIENT_ID';
+const REDIRECT_URI = 'https://ayoba-cg.vercel.app/'; // URL do site hospedado
+const SCOPE        = 'identify';
+const AUTH_URL     = 'https://discord.com/api/oauth2/authorize';
+const API_USER_URL = 'https://discord.com/api/users/@me';
+
+let accessToken = null;
+
+// DOM
+const lobbyEl      = document.getElementById('lobby');
+const gameEl       = document.getElementById('game');
+const logEl        = document.getElementById('log');
+const btnProfile   = document.getElementById('btn-profile');
+const btnVsBot     = document.getElementById('btn-vs-bot');
+const btnStore     = document.getElementById('btn-store');
+const btnInventory = document.getElementById('btn-inventory');
+
+// On load: checa callback OAuth2
+window.onload = () => {
+  const hash = new URLSearchParams(location.hash.slice(1));
+  if (hash.has('access_token')) {
+    accessToken = hash.get('access_token');
+    history.replaceState({}, '', location.pathname);
+    fetchDiscordUser();
+  }
+};
+
+// Inicia OAuth2 flow
+btnProfile.onclick = () => {
+  if (!accessToken) {
+    const url = `${AUTH_URL}?client_id=${CLIENT_ID}` +
+                `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
+                `&response_type=token&scope=${SCOPE}`;
+    window.location.href = url;
+  }
+};
+
+// Busca nome e avatar
+async function fetchDiscordUser() {
+  const res = await fetch(API_USER_URL, {
+    headers: { Authorization: `Bearer ${accessToken}` }
+  });
+  if (!res.ok) return alert('Falha ao obter perfil Discord');
+  const user = await res.json();
+  showDiscordProfile(user);
+}
+
+// Renderiza na tela Perfil/Avatar
+function showDiscordProfile(user) {
+  const box = document.getElementById('profile-box');
+  box.innerHTML = `
+    <img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" 
+         alt="avatar" class="avatar">
+    <span>${user.username}#${user.discriminator}</span>
+  `;
+}
+
+// Stubs loja/inventário
+btnStore.onclick     = () => alert('Loja (stub)');
+btnInventory.onclick = () => alert('Inventário (stub)');
+
+// Navegação para o jogo
+btnVsBot.onclick = () => {
+  lobbyEl.classList.add('hidden');
+  gameEl.classList.remove('hidden');
+  startGame();
+};
+
+// ——— LÓGICA DO JOGO VS BOT ———
 const DEFAULT_IMAGE = 'https://via.placeholder.com/100';
 const characterCards = [
   { id: 1, name: 'Lilih', clan: 'Paladino', stats: { presence: 98, monetization: 60, subscription: 36, charisma: 58 }, image: 'rbxassetid://92040032975049' },
@@ -32,25 +102,11 @@ const characterCards = [
   { id: 29, name: 'Centlock', clan: 'Guardião', stats: { presence: 85, monetization: 90, subscription: 2, charisma: 79 }, image: DEFAULT_IMAGE }
 ];
 
-const logEl = document.getElementById('log');
 function log(msg) {
   logEl.innerHTML += msg + '<br>';
   logEl.scrollTop = logEl.scrollHeight;
 }
 
-// Toggle telas
-const lobbyEl = document.getElementById('lobby');
-const gameEl  = document.getElementById('game');
-document.getElementById('btn-vs-bot').onclick = () => {
-  lobbyEl.classList.add('hidden');
-  gameEl.classList.remove('hidden');
-  startGame();
-};
-document.getElementById('btn-profile').onclick   = () => alert('Perfil Discord/Twitch (stub)');
-document.getElementById('btn-store').onclick     = () => alert('Loja (stub)');
-document.getElementById('btn-inventory').onclick = () => alert('Inventário (stub)');
-
-// Lógica básica vs Bot
 let playerDeck = [], botDeck = [], playerCard, botCard;
 
 function shuffle(a) {
@@ -62,13 +118,13 @@ function shuffle(a) {
 
 function startGame() {
   shuffle(characterCards);
-  playerDeck = characterCards.slice(0, 20);
-  botDeck    = characterCards.slice(20, 40);
+  playerDeck = characterCards.slice(0,20);
+  botDeck    = characterCards.slice(20,40);
   nextTurn();
 }
 
 function showCard(el, card, hide) {
-  if (hide) el.innerHTML = 'Carta Oculta';
+  if (hide) el.innerText = 'Carta Oculta';
   else el.innerHTML = `
     <img src="${card.image||DEFAULT_IMAGE}">
     <p>${card.name}</p>
@@ -91,83 +147,60 @@ function nextTurn() {
 function renderActions() {
   const actions = document.getElementById('actions');
   actions.innerHTML = '';
-  Object.keys(playerCard.stats).forEach(stat => {
-    if (stat === 'charisma') {
-      const btnO = document.createElement('button');
-      btnO.innerText = 'Carisma: Ordem';
-      btnO.onclick = () => battleCharisma('ordem');
-      actions.append(btnO);
-      const btnC = document.createElement('button');
-      btnC.innerText = 'Carisma: Caos';
-      btnC.onclick = () => battleCharisma('caos');
-      actions.append(btnC);
+  for (let stat in playerCard.stats) {
+    if (stat==='charisma') {
+      const o = document.createElement('button');
+      o.innerText = 'Carisma: Ordem';
+      o.onclick = () => battleCharisma('ordem');
+      actions.append(o);
+      const c = document.createElement('button');
+      c.innerText = 'Carisma: Caos';
+      c.onclick = () => battleCharisma('caos');
+      actions.append(c);
     } else {
       const btn = document.createElement('button');
       btn.innerText = stat;
       btn.onclick = () => battle(stat);
       actions.append(btn);
     }
-  });
+  }
 }
 
 function battle(stat) {
   showCard(document.getElementById('bot-card'), botCard, false);
-  const p = playerCard.stats[stat];
-  const b = botCard.stats[stat];
+  const p = playerCard.stats[stat], b = botCard.stats[stat];
   log(`Você(${p}) vs Bot(${b}) em ${stat.toUpperCase()}`);
-  resolveBattle(p, b);
+  resolveBattle(p,b);
 }
 
 function battleCharisma(mode) {
   showCard(document.getElementById('bot-card'), botCard, false);
-  const pRaw = playerCard.stats.charisma;
-  const bRaw = botCard.stats.charisma;
-  const p = mode === 'ordem' ? 100 - pRaw : pRaw;
-  const b = mode === 'ordem' ? 100 - bRaw : bRaw;
+  const pRaw = playerCard.stats.charisma, bRaw = botCard.stats.charisma;
+  const p = mode==='ordem'?100-pRaw:pRaw, b = mode==='ordem'?100-bRaw:bRaw;
   log(`Você escolheu ${mode.toUpperCase()} em Carisma: Você(${p}) vs Bot(${b})`);
-  resolveBattle(p, b);
+  resolveBattle(p,b);
 }
 
-function resolveBattle(p, b) {
-  if (p > b) {
-    log('Você venceu!');
-    playerDeck.push(playerCard);
-  } else if (b > p) {
-    log('Bot venceu!');
-    botDeck.push(botCard);
-  } else {
+function resolveBattle(p,b) {
+  if (p>b) { log('Você venceu!'); playerDeck.push(playerCard); }
+  else if (b>p) { log('Bot venceu!'); botDeck.push(botCard); }
+  else {
     log('Empate! Desempate por clã…');
-    if (clanWin(playerCard.clan, botCard.clan)) {
-      log('Seu clã venceu!');
-      playerDeck.push(playerCard);
-    } else if (clanWin(botCard.clan, playerCard.clan)) {
-      log('Clã do bot venceu!');
-      botDeck.push(botCard);
-    } else {
-      log('Empate total! Ambos mantêm.');
-      playerDeck.push(playerCard);
-      botDeck.push(botCard);
-    }
+    if (clanWin(playerCard.clan,botCard.clan)) { log('Seu clã venceu!'); playerDeck.push(playerCard); }
+    else if (clanWin(botCard.clan,playerCard.clan)) { log('Clã do bot venceu!'); botDeck.push(botCard); }
+    else { log('Empate total! Ambos mantêm.'); playerDeck.push(playerCard); botDeck.push(botCard); }
   }
-  setTimeout(nextTurn, 1000);
+  setTimeout(nextTurn,1000);
 }
 
-function clanWin(a, b) {
-  return (a==='Paladino'&&b==='Guardião')||
-         (a==='Guardião'&&b==='Sentinela')||
-         (a==='Sentinela'&&b==='Paladino');
+function clanWin(a,b) {
+  return (a==='Paladino'&&b==='Guardião')||(a==='Guardião'&&b==='Sentinela')||(a==='Sentinela'&&b==='Paladino');
 }
 
 function endGame() {
-  const btnAyoba = document.getElementById('ayoba-btn');
+  const btn = document.getElementById('ayoba-btn');
   if (!botDeck.length) {
-    log('Você venceu a partida!');
-    btnAyoba.classList.remove('hidden');
-  } else {
-    log('Você perdeu a partida!');
-  }
-  btnAyoba.onclick = () => {
-    log('AYOBA! Vitória confirmada');
-    btnAyoba.classList.add('hidden');
-  };
+    log('Você venceu a partida!'); btn.classList.remove('hidden');
+  } else log('Você perdeu a partida!');
+  btn.onclick = () => { log('AYOBA! Vitória confirmada'); btn.classList.add('hidden'); };
 }
