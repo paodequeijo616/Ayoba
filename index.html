@@ -4,10 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ayoba Card Game</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="game">
+  <!-- Lobby Screen -->
+  <div id="lobby">
+    <div class="lobby-center">
+      <button id="btn-vs-bot">Jogar vs Bot</button>
+      <button id="btn-normal" disabled>Partida Normal</button>
+      <button id="btn-competitive" disabled>Competitivo</button>
+    </div>
+    <div class="lobby-top-right">
+      <button id="btn-profile">Perfil</button>
+      <button id="btn-store">Loja</button>
+      <button id="btn-inventory">Inventário</button>
+    </div>
+  </div>
+
+  <!-- Main Game Screen -->
+  <div id="game" class="hidden">
     <div class="hand">
       <div class="card-area" id="player-area">
         <h3>Você</h3>
@@ -20,8 +35,9 @@
     </div>
     <div id="actions"></div>
     <div id="log"></div>
-    <button id="ayoba-btn">AYOBA!</button>
+    <button id="ayoba-btn" class="hidden">AYOBA!</button>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>

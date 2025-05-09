@@ -1,9 +1,96 @@
-body { font-family: sans-serif; background: #1a1a1a; color: #fff; display: flex; justify-content: center; }
-#game { width: 800px; margin: 20px; }
-.hand { display: flex; justify-content: space-between; margin-bottom: 20px; }
-.card-area { background: #222; padding: 10px; border-radius: 8px; width: 48%; text-align: center; }
-.card-area img { width: 100px; height: 100px; object-fit: cover; border-radius: 4px; }
-#actions { text-align: center; margin-bottom: 20px; }
-#actions button { margin: 5px; padding: 8px 16px; font-size: 14px; border: none; border-radius: 4px; cursor: pointer; }
-#log { background: #000; padding: 10px; height: 120px; overflow-y: auto; border-radius: 4px; font-size: 14px; }
-#ayoba-btn { display: none; margin: 20px auto; padding: 12px 24px; font-size: 18px; background: red; border: none; border-radius: 4px; cursor: pointer; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: sans-serif;
+  background: #1a1a1a;
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hidden { display: none; }
+
+/* Lobby */
+#lobby {
+  position: relative;
+  width: 600px;
+  text-align: center;
+}
+.lobby-center {
+  margin-top: 100px;
+}
+.lobby-center button {
+  margin: 0 10px;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.lobby-top-right {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.lobby-top-right button {
+  margin-left: 8px;
+  padding: 6px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Game */
+#game {
+  width: 800px;
+}
+.hand {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.card-area {
+  background: #222;
+  padding: 10px;
+  border-radius: 8px;
+  width: 48%;
+  text-align: center;
+}
+.card-area img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+#actions {
+  text-align: center;
+  margin-bottom: 20px;
+}
+#actions button {
+  margin: 5px;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#log {
+  background: #000;
+  padding: 10px;
+  height: 120px;
+  overflow-y: auto;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+#ayoba-btn {
+  display: block;
+  margin: 0 auto;
+  padding: 12px 24px;
+  font-size: 18px;
+  background: red;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
