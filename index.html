@@ -8,7 +8,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@discord/embedded-app-sdk@latest/dist/discord-embedded-app-sdk.js"></script>
 </head>
 <body>
-  <!-- Lobby -->
   <div id="lobby">
     <div class="lobby-top-left">
       <div id="profile-box">
@@ -28,7 +27,6 @@
     </div>
   </div>
 
-  <!-- Game -->
   <div id="game" class="hidden">
     <div class="hand">
       <div class="card-area" id="player-area"><h3>Você</h3><div id="player-card"></div></div>
@@ -39,20 +37,18 @@
     <button id="ayoba-btn" class="hidden">AYOBA!</button>
   </div>
 
-  <script src="script.js"></script>
-   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const sdk = window.discordSdk;
-      sdk.ready().then(() => {
-        sdk.connect({ clientId: '1365169402441633852' }).then(() => {
-          const user = sdk.user;
-          const box = document.getElementById('profile-box');
-          box.querySelector('.avatar-placeholder').outerHTML =
-            `<img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" class="avatar" style="width:32px;height:32px;border-radius:50%">`;
-          box.querySelector('#username').innerText =
-            `${user.username}#${user.discriminator}`;
-        });
-      });
+  <script>
+    window.addEventListener('DOMContentLoaded', async () => {
+      const sdk = new DiscordSDK('1365169402441633852');
+      await sdk.ready();
+      await sdk.connect();
+
+      const user = sdk.user;
+      const box = document.getElementById('profile-box');
+      box.querySelector('.avatar-placeholder').outerHTML =
+        `<img src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" class="avatar" style="width:32px;height:32px;border-radius:50%">`;
+      box.querySelector('#username').innerText =
+        `${user.username}#${user.discriminator}`;
     });
   </script>
 </body>
