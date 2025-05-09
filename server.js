@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 });
 
 app.post('/', (req, res) => {
-    res.status(200).json({ message: 'oi oi' });
+    res.send('oi oi' );
 });
 
 // Iniciar o servidor
