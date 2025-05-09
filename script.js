@@ -1,6 +1,5 @@
-// script.js
-// Inicializa o Discord Embedded App
-const sdk = new DiscordSDK({ clientId: '1365169402441633852' });
+// Inicializa o Discord Embedded App via Embedded App SDK
+const sdk = new DiscordEmbedSDK({ clientId: '1365169402441633852' });
 sdk.init();
 sdk.ready().then(() => {
   const user = sdk.user; // { id, username, discriminator, avatar }
