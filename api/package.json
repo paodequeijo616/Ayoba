@@ -1,0 +1,13 @@
+{
+  "name": "ayoba-card-game",
+  "version": "1.0.0",
+  "description": "Discord Embedded Activity for Ayoba Card Game",
+  "main": "script.js",
+  "scripts": {
+    "start": "vercel dev",
+    "build": "echo \"No build step configured.\""
+  },
+  "dependencies": {
+    "@discord/embedded-app-sdk": "^1.1.1"
+  }
+}
