@@ -9,6 +9,7 @@
   "author": "Seu Nome",
   "license": "MIT",
   "dependencies": {
+    "@discord/embedded-app-sdk": "^2.0.0",
     "@discordjs/voice": "^0.18.0",
     "axios": "^1.7.9",
     "discord-modals": "^1.0.0",
