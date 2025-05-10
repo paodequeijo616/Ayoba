@@ -5,63 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ayoba Card Game</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@discord/embedded-app-sdk@latest/dist/discord-embedded-app-sdk.js"></script>
 </head>
 <body>
-  <div id="lobby">
-    <div class="lobby-top-left">
-      <div id="profile-box">
-        <button id="btn-login">Login com o Discord</button>
-        <div id="user-info" style="display: none;">
-          <img id="avatar" class="avatar" style="width:32px;height:32px;border-radius:50%">
-          <span id="username"></span>
-        </div>
-      </div>
-      <button id="btn-store">Loja</button>
-    </div>
-
-    <div class="lobby-center">
-      <button id="btn-vs-bot">Jogar vs Bot</button>
-      <button id="btn-normal" disabled>Partida Normal</button>
-      <button id="btn-competitive" disabled>Competitivo</button>
-    </div>
-    <div class="lobby-middle-right">
-      <button id="btn-inventory">Inventário</button>
+  <div id="profile-box">
+    <button id="btn-login">Login com Discord</button>
+    <div id="user-info" style="display: none;">
+      <img id="avatar" style="width:32px;height:32px;border-radius:50%" />
+      <span id="username"></span>
     </div>
   </div>
 
-  <div id="game" class="hidden">
-    <div class="hand">
-      <div class="card-area" id="player-area"><h3>Você</h3><div id="player-card"></div></div>
-      <div class="card-area" id="bot-area"><h3>Bot</h3><div id="bot-card">Carta Oculta</div></div>
-    </div>
-    <div id="actions"></div>
-    <div id="log"></div>
-    <button id="ayoba-btn" class="hidden">AYOBA!</button>
-  </div>
+  <script>
+    window.addEventListener('DOMContentLoaded', async () => {
+      const sdk = window.discordSdk;
 
-	<script>
-	  window.addEventListener('DOMContentLoaded', async () => {
-		if (!window.discordSdk) {
-		  alert("Esse app precisa ser executado dentro de uma Atividade do Discord.");
-		  return;
-		}
+      if (!sdk) {
+        alert("Este app precisa ser aberto como uma Atividade no Discord.");
+        return;
+      }
 
-		const sdk = window.discordSdk;
+      await sdk.ready();
+      await sdk.connect({ clientId: '1365169402441633852' });
 
-		try {
-		  await sdk.ready();
-		  await sdk.connect({ clientId: '1365169402441633852' });
-
-		  const user = sdk.user;
-		  document.getElementById('btn-login').style.display = 'none';
-		  document.getElementById('user-info').style.display = 'flex';
-		  document.getElementById('avatar').src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
-		  document.getElementById('username').innerText = `${user.username}#${user.discriminator}`;
-		} catch (err) {
-		  console.error("Erro ao conectar ao Discord SDK:", err);
-		}
-	  });
-	</script>
+      const user = sdk.user;
+      document.getElementById('btn-login').style.display = 'none';
+      document.getElementById('user-info').style.display = 'flex';
+      document.getElementById('avatar').src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
+      document.getElementById('username').innerText = `${user.username}#${user.discriminator}`;
+    });
+  </script>
 </body>
 </html>
