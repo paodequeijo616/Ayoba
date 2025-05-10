@@ -31,14 +31,15 @@
 
   <div id="game" class="hidden">
     <div class="hand">
-      <div class="card-area" id="player-area"><h3>Você</h3><div id="player-card"></div></div>
       <div class="card-area" id="bot-area"><h3>Bot</h3><div id="bot-card">Carta Oculta</div></div>
+      <div class="card-area" id="player-area"><h3>Você</h3><div id="player-card"></div></div>
     </div>
     <div id="actions"></div>
     <div id="log"></div>
     <button id="ayoba-btn" class="hidden">AYOBA!</button>
   </div>
 
+  <script src="script.js"></script> 
   <script>
     window.addEventListener('DOMContentLoaded', async () => {
       const sdk = window.discordSdk;
