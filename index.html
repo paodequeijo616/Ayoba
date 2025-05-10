@@ -7,12 +7,36 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="profile-box">
-    <button id="btn-login">Login com Discord</button>
-    <div id="user-info" style="display: none;">
-      <img id="avatar" style="width:32px;height:32px;border-radius:50%" />
-      <span id="username"></span>
+  <div id="lobby">
+    <div class="lobby-top-left">
+      <div id="profile-box">
+        <button id="btn-login">Login com o Discord</button>
+        <div id="user-info" style="display: none;">
+          <img id="avatar" class="avatar" style="width:32px;height:32px;border-radius:50%">
+          <span id="username"></span>
+        </div>
+      </div>
+      <button id="btn-store">Loja</button>
     </div>
+
+    <div class="lobby-center">
+      <button id="btn-vs-bot">Jogar vs Bot</button>
+      <button id="btn-normal" disabled>Partida Normal</button>
+      <button id="btn-competitive" disabled>Competitivo</button>
+    </div>
+    <div class="lobby-middle-right">
+      <button id="btn-inventory">Inventário</button>
+    </div>
+  </div>
+
+  <div id="game" class="hidden">
+    <div class="hand">
+      <div class="card-area" id="player-area"><h3>Você</h3><div id="player-card"></div></div>
+      <div class="card-area" id="bot-area"><h3>Bot</h3><div id="bot-card">Carta Oculta</div></div>
+    </div>
+    <div id="actions"></div>
+    <div id="log"></div>
+    <button id="ayoba-btn" class="hidden">AYOBA!</button>
   </div>
 
   <script>
