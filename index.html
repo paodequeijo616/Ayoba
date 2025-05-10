@@ -40,19 +40,28 @@
     <button id="ayoba-btn" class="hidden">AYOBA!</button>
   </div>
 
-  <script>
-    const sdk = new DiscordSDK('1365169402441633852');
+	<script>
+	  window.addEventListener('DOMContentLoaded', async () => {
+		if (!window.discordSdk) {
+		  alert("Esse app precisa ser executado dentro de uma Atividade do Discord.");
+		  return;
+		}
 
-    document.getElementById('btn-login').addEventListener('click', async () => {
-      await sdk.ready();
-      await sdk.connect();
+		const sdk = window.discordSdk;
 
-      const user = sdk.user;
-      document.getElementById('btn-login').style.display = 'none';
-      document.getElementById('user-info').style.display = 'flex';
-      document.getElementById('avatar').src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
-      document.getElementById('username').innerText = `${user.username}#${user.discriminator}`;
-    });
-  </script>
+		try {
+		  await sdk.ready();
+		  await sdk.connect({ clientId: '1365169402441633852' });
+
+		  const user = sdk.user;
+		  document.getElementById('btn-login').style.display = 'none';
+		  document.getElementById('user-info').style.display = 'flex';
+		  document.getElementById('avatar').src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
+		  document.getElementById('username').innerText = `${user.username}#${user.discriminator}`;
+		} catch (err) {
+		  console.error("Erro ao conectar ao Discord SDK:", err);
+		}
+	  });
+	</script>
 </body>
 </html>
